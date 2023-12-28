@@ -9,21 +9,63 @@ import java.util.Random;
  */
 public class OneOfEachStats {
 	public static void main (String[] args) {
-		// Gets the two command-line arguments
-		int T = Integer.parseInt(args[0]);
-		int seed = Integer.parseInt(args[1]);
-		// Initailizes a random numbers generator with the given seed value
-        Random generator = new Random(seed);  
-		
-		//// In the previous version of this program, you used a statement like:
-		//// double rnd = Math.random();
-		//// Where "rnd" is the variable that stores the generated random value.
-		//// In this version of the program, replace this statement with:
-		//// double rnd = generator.nextDouble();
-		//// This statement will generate a random value in the range [0,1),
-		//// just like you had in the previous version, except that the 
-		//// randomization will be based on the given seed.
-		//// This is the only change that you have to do in the program.
+		// Gets the two command-line arguments  
+        int T = Integer.parseInt(args[0]); 
+        int seed = Integer.parseInt(args[1]);
+        Random generator = new Random(seed);
+    	// Initailizes a random numbers generator with the given seed value
+		boolean boy = false;
+		boolean girl = false;
+		int twoChilds = 0 ;
+		int threeChilds = 0 ;
+		int fourPlusChilds = 0 ;
+		double totalChilds = 0;
+		int count = 0 ;
+		double rnd = (double) (generator.nextDouble());
+		for (int t = 0; t < T ; t++ ) 		
+		{
+			while (!girl || !boy)
+			{
+
+				//random number between 0 to 0.5 means a girl
+				//random number between 0.5 to 1 means a boy
+				if (rnd > 0.5) 
+				{
+					boy = true;
+					count++ ;
+					totalChilds++ ; 
+					rnd = (double) (generator.nextDouble());
+				}
+				else
+				{
+					girl = true;
+					count++ ;
+					totalChilds++ ; 
+					rnd = (double) (generator.nextDouble());
+				}
+			}
+			if (count == 2)
+				twoChilds++;
+			else if (count == 3)	
+				threeChilds++;
+			else if (count > 3)
+				fourPlusChilds++; 	
+			boy = false;
+			girl = false;
+			count = 0;
+		}	
+		String mode = "";
+		if ((fourPlusChilds > threeChilds) && (fourPlusChilds > twoChilds))
+			mode = "4 or more.";
+		else if(threeChilds > twoChilds)
+			mode = "3.";
+		else 
+			mode = "2.";
+		System.out.println("Average: " + (double)(totalChilds / T) + " children to get at least one of each gender.");
+		System.out.println("Number of families with 2 children: " + twoChilds);
+		System.out.println("Number of families with 3 children: " + threeChilds);
+		System.out.println("Number of families with 4 or more children: " + fourPlusChilds);
+		System.out.println("The most common number of children is "+ mode);
 		    
 	}
 }
